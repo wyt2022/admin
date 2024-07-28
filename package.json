@@ -41,9 +41,15 @@
     "husky": "^8.0.3",
     "less": "^4.2.0",
     "lint-staged": "^15.2.7",
+    "mockjs": "^1.1.0",
     "prettier": "^3.0.3",
     "typescript": "^5.5.3",
+    "unplugin-auto-import": "^0.18.2",
+    "unplugin-element-plus": "^0.8.0",
+    "unplugin-icons": "^0.19.0",
+    "unplugin-vue-components": "^0.27.3",
     "vite": "^5.3.5",
+    "vite-plugin-mock": "^3.0.2",
     "vue-tsc": "^2.0.29"
   },
   "lint-staged": {

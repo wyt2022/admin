@@ -58,22 +58,23 @@ service.interceptors.response.use(
 const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
   const conf = config;
   return new Promise((resolve, reject) => {
-    service.request<any, AxiosResponse<BaseResponse<T>>>(conf).then((res: AxiosResponse<BaseResponse<T>>) => {
-      const data = res.data;
+    service.request<any, BaseResponse<T>>(conf).then((res: BaseResponse<T>) => {
+      console.log(res, '8888s');
+      const { data, code, message } = res;
       // 如果data.code为错误代码返回message信息
-      if (data.code != 200) {
+      if (code != 200) {
         ElMessage({
-          message: data.message,
+          message: message,
           type: 'error'
         });
-        reject(data.message);
+        reject(message);
       } else {
         ElMessage({
-          message: data.message,
+          message: message,
           type: 'success'
         });
         // 此处返回data信息 也就是 api 中配置好的 Response类型
-        resolve(data.data as T);
+        resolve(data as T);
       }
     });
   });

@@ -35,12 +35,23 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       ElementPlus({}),
       // 自动导入组件
       AutoImport({
-        resolvers: [ElementPlusResolver(), IconsResolver()],
+        imports: ['vue'],
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            prefix: 'Icon'
+          })
+        ],
         dts: fileURLToPath(new URL('./types/auto-imports.d.ts', import.meta.url))
       }),
       // 组件自动注册
       Components({
-        resolvers: [ElementPlusResolver(), IconsResolver()],
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({
+            enabledCollections: ['ep']
+          })
+        ],
         dts: fileURLToPath(new URL('./types/components.d.ts', import.meta.url))
       }),
       // 图标自动注册
@@ -63,18 +74,15 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       proxy: {
         // 这里的意思是 以/api开头发送的请求都会被转发到 http://xxx:3000
         [env.VITE_APP_API_BASEURL]: {
-          target: 'http://localhost:9000',
+          target: 'http://localhost:3000',
           // 改变 Host Header
           changeOrigin: true
           // 发起请求时将 '/api' 替换为 ''
           //rewrite: (path) => path.replace(/^\/api/, ""),
         },
         [env.VITE_APP_MOCK_BASEURL]: {
-          target: 'http://localhost:9000',
-          // 改变 Host Header
+          target: 'http://localhost:3000',
           changeOrigin: true
-          // 发起请求时将 '/api' 替换为 ''
-          //rewrite: (path) => path.replace(/^\/api/, ""),
         }
       }
     },

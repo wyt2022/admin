@@ -59,7 +59,6 @@ const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
   const conf = config;
   return new Promise((resolve, reject) => {
     service.request<any, BaseResponse<T>>(conf).then((res: BaseResponse<T>) => {
-      console.log(res, '8888s');
       const { data, code, message } = res;
       // 如果data.code为错误代码返回message信息
       if (code != 200) {
@@ -69,10 +68,6 @@ const requestInstance = <T = any>(config: AxiosRequestConfig): Promise<T> => {
         });
         reject(message);
       } else {
-        ElMessage({
-          message: message,
-          type: 'success'
-        });
         // 此处返回data信息 也就是 api 中配置好的 Response类型
         resolve(data as T);
       }

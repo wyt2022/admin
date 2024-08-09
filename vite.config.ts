@@ -35,7 +35,12 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       ElementPlus({}),
       // 自动导入组件
       AutoImport({
-        imports: ['vue'],
+        imports: ['vue', 'vue-router', 'pinia'],
+        eslintrc: {
+          enabled: true, // 开启 eslint
+          filepath: fileURLToPath(new URL('./.eslintrc-auto-import.js', import.meta.url)), // eslint配置文件路径
+          globalsPropValue: true // 允许全局变量
+        },
         resolvers: [
           ElementPlusResolver(),
           IconsResolver({

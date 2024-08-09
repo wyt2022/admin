@@ -17,8 +17,6 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
-import { ElMessageBox, ElMessage } from 'element-plus';
 import { getRoleList } from '@/api/role';
 interface IRole {
   roleId: number; // 角色id
@@ -26,6 +24,8 @@ interface IRole {
   authority: number[]; // 权限列表
 }
 let roleList = ref<IRole[]>([]);
+
+const router = useRouter();
 
 onMounted(() => {
   getRoleList().then((res) => {
@@ -55,6 +55,11 @@ const onAddRole = () => {
     });
 };
 const onChangeRole = (row: IRole) => {
-  console.log(row);
+  router.push({
+    path: 'auth',
+    query: {
+      auth: row.authority.join(',')
+    }
+  });
 };
 </script>

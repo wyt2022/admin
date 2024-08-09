@@ -1,7 +1,44 @@
 <template>
-  <div>权限模块</div>
+  <div>
+    <el-tree
+      ref="treeRef"
+      :data="authList"
+      :check-strictly="true"
+      show-checkbox
+      :default-checked-keys="checkedNode"
+      node-key="roleId"
+      :props="{ label: 'name', children: 'roleList' }"
+    />
+    <el-button type="primary" @click="onChangeAuth">修改权限</el-button>
+  </div>
 </template>
-
-<script setup lang="ts"></script>
-
-<style scoped></style>
+<script lang="ts" setup>
+import { getAuthList } from '@/api/auth';
+const route = useRoute();
+interface IAuth {
+  name: string; // 权限名称
+  roleId: number; // 角色ID
+  roleList?: IAuth[]; // 角色列表 子权限
+}
+const treeRef = ref<any>(null);
+let authList = ref<IAuth[]>([]);
+const checkedNode = ref<number[]>([]);
+const { query } = route;
+if (query.auth) {
+  const queryString: string = query.auth as string;
+  checkedNode.value = queryString.split(',').map((item) => Number(item));
+}
+onMounted(() => {
+  getAuthList()
+    .then((res) => {
+      authList.value = res;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+const onChangeAuth = () => {
+  const selectedTreeNode = treeRef.value.getCheckedNodes();
+  console.log(selectedTreeNode);
+};
+</script>
